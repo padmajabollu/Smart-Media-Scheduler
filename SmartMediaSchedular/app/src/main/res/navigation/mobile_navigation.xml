@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.smartmediaschedular.home"
+        android:label="Smart Media Schedualar"
+        tools:layout="@layout/fragment_home"
+        />
+    <fragment
+        android:id="@+id/email"
+        android:name="com.example.smartmediaschedular.email"
+        android:label="Email"
+        tools:layout="@layout/fragment_email" />
+
+    <fragment
+        android:id="@+id/message"
+        android:name="com.example.smartmediaschedular.message"
+        android:label="Message"
+        tools:layout="@layout/fragment_message" />
+
+    <fragment
+        android:id="@+id/video"
+        android:name="com.example.smartmediaschedular.video"
+        android:label="Video"
+        tools:layout="@layout/fragment_video" />
+
+    <fragment
+        android:id="@+id/audio"
+        android:name="com.example.smartmediaschedular.audio"
+        android:label="Audio"
+        tools:layout="@layout/fragment_audio" />
+
+    <fragment
+        android:id="@+id/share"
+        android:name="com.example.smartmediaschedular.share"
+        android:label="Share"
+        tools:layout="@layout/fragment_share" />
+</navigation>

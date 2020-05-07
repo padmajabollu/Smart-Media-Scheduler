@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        app:showAsAction="always"
+        android:icon="@drawable/more"
+        android:id="@+id/main_menu"
+        android:title=""
+
+        >
+        <menu>
+
+            <item
+                android:id="@+id/rateus"
+                android:icon="@drawable/rateus"
+                android:orderInCategory="100"
+                android:title="Rate Us"
+                />
+
+            <item
+                android:id="@+id/share"
+                android:orderInCategory="100"
+                android:title="Share"
+                android:icon="@drawable/ic_menu_share"
+                />
+            <item
+                android:id="@+id/support"
+                android:orderInCategory="100"
+                android:title="Support"
+                android:icon="@drawable/support"
+                />
+            <item
+                android:id="@+id/exit"
+                android:orderInCategory="100"
+                android:title="Exit"
+                android:icon="@drawable/exit"
+                />
+
+
+        </menu>
+    </item>
+</menu>
+
+<!--
+
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/delete"
+        android:title=""
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/check"
+        android:icon="@drawable/check"
+        android:title=""
+        app:showAsAction="always"
+        />
+-->

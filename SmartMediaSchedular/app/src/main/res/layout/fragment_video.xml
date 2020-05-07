@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".video">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+    >
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/video_camera"
+            android:layout_gravity="center"
+            android:id="@+id/video"
+            />
+
+        <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/show"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sender_name"
+            app:errorEnabled="true"
+
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Sender Name"
+                android:inputType="textPersonName"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:id="@+id/receiver_email"
+            app:errorEnabled="true"
+            app:counterMaxLength="10"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Enter Receivers Email Id (email1,eamil2)"
+                android:id="@+id/receiver_email1"
+                android:scrollbars="vertical"
+
+                android:inputType="textEmailAddress|textMultiLine"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:id="@+id/emailsub"
+            app:errorEnabled="true"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:hint="Enter Email Subject"
+
+                android:id="@+id/emailsub1"
+                android:scrollbars="vertical"
+                android:inputType="textMultiLine|textEmailSubject"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            android:id="@+id/attach"
+
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/attach1"
+
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:hint="Video path"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <include
+            layout="@layout/schedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/send"
+            android:id="@+id/send"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            />
+
+</LinearLayout>
+
+</ScrollView>
