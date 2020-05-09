@@ -1,7 +1,11 @@
 package com.example.smartmediaschedular;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -57,6 +61,7 @@ public class audio extends Fragment {
     TextInputEditText attachment1;
     String media_title,media1;
     Long media_size;
+    String not_id;
     Button buttonStart, buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording ;
     String AudioSavePathInDevice = null;
     MediaRecorder mediaRecorder ;
@@ -114,7 +119,7 @@ public class audio extends Fragment {
 
                     String toast = sender1 + "\n" + receiver1 + "\n" + subject1 + "\n" + date1 + "\n" + time1;
 
-                    Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
 
 
                     builder.setMessage("Do you want to Schedule ?")
@@ -128,11 +133,38 @@ public class audio extends Fragment {
                                                 "insert_email",sender1,receiver1,media_title,subject1,date1,time1,0,media1
                                         );
                                         call.enqueue(new Callback<List<status>>() {
+                                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                             @Override
                                             public void onResponse(Call<List<status>> call, Response<List<status>> response) {
                                                 List<status> list=new ArrayList<>();
                                                 list=response.body();
                                                 Toast.makeText(getContext(),list.get(0).getStatus(),Toast.LENGTH_SHORT).show();
+                                                Calendar calendar = Calendar.getInstance();
+
+                                                not_id=list.get(0).getId();
+                                                String[] date=date1.split("/");
+                                                String[] time=time1.split(":");
+                                                int day=Integer.parseInt(date[0]);
+                                                int mon=Integer.parseInt(date[1])-1;
+                                                int year=Integer.parseInt(date[2]);
+                                                int hour=Integer.parseInt(time[0]);
+                                                int min=Integer.parseInt(time[1]);
+                                                int sec=0;
+
+                                                calendar.set(Calendar.YEAR,year);
+                                                calendar.set(Calendar.MONTH,mon);
+                                                calendar.set(Calendar.DAY_OF_MONTH,day);
+                                                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                                                calendar.set(Calendar.MINUTE, min+1);
+                                                calendar.set(Calendar.SECOND, sec);
+
+
+                                                startAlarm(calendar);
+
+                                                Intent intent=new Intent(getContext(),MainActivity.class);
+                                                startActivity(intent);
+                                                getActivity().finish();
+
                                             }
 
                                             @Override
@@ -167,11 +199,14 @@ public class audio extends Fragment {
         schedule_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar=Calendar.getInstance();
+                /*Calendar calendar=Calendar.getInstance();
                 int year=calendar.get(Calendar.YEAR);
                 int month=calendar.get(Calendar.MONTH);
                 final int dayofmon=calendar.get(Calendar.DAY_OF_MONTH);
-
+                */
+                final int[] y = new int[1];
+                final int[] m = new int[1];
+                final int[] dm = new int[1];
                 DatePickerDialog datePickerDialog=new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -187,20 +222,25 @@ public class audio extends Fragment {
                         {
                             mon=Integer.toString(month);
                         }
-                        if(dayofmon<10)
+                        if(dayOfMonth<10)
                         {
-                            dmon="0"+Integer.toString(dayofmon);
+                            dmon="0"+Integer.toString(dayOfMonth);
                         }
                         else
                         {
-                            dmon=Integer.toString(dayofmon);
+                            dmon=Integer.toString(dayOfMonth);
                         }
+
                         date.setText(dmon+"/"+mon+"/"+year);
+                        y[0] =Integer.parseInt(String.valueOf(year));
+                        m[0]=Integer.parseInt(mon);
+                        dm[0]=Integer.parseInt(dmon);
+
                     }
-                },year,month,dayofmon);
-                Date d1=new Date();
+                },y[0],m[0],dm[0]);
 
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
                 datePickerDialog.show();
             }
         });
@@ -352,7 +392,7 @@ public class audio extends Fragment {
                 }
 
                 mediaPlayer.start();
-                Toast.makeText(getContext(),AudioSavePathInDevice,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),AudioSavePathInDevice,Toast.LENGTH_SHORT).show();
 
                 Toast.makeText(getContext(), "Recording Playing",
                         Toast.LENGTH_LONG).show();
@@ -631,4 +671,21 @@ public class audio extends Fragment {
         return result == PackageManager.PERMISSION_GRANTED &&
                 result1 == PackageManager.PERMISSION_GRANTED;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), Remainder.class);
+
+        intent.putExtra(Intent.EXTRA_TITLE,sender1+"-"+receiver1+"-"+subject1+"-"+not_id);
+        //Toast.makeText(getContext(),sender1+"-"+phno1+"-"+msg1+"-"+not_id,Toast.LENGTH_SHORT).show();
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),Integer.parseInt(not_id), intent, 0);
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
+
 }

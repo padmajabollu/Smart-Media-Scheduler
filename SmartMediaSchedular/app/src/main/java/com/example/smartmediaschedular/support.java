@@ -40,7 +40,7 @@ public class support extends AppCompatActivity {
 
                 if(validateSupport())
                 {
-                    Toast.makeText(getApplicationContext(),support1,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),support1,Toast.LENGTH_SHORT).show();
                     Call<List<status>> call=ApiClient.getInstance().getApi().insertSupport("insertSupport",support1);
                     call.enqueue(new Callback<List<status>>() {
                         @Override

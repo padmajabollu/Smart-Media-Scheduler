@@ -155,7 +155,7 @@ public class email extends Fragment {
                 if(validateSender() && validateReceiver() && validateAttach() && validatemsg() && validatedate() && validatetime())
                 {
                     String toast=sender1+"\n"+receiver1+"\n"+attach+"\n"+msg1+"\n"+date1+"\n"+time1;
-                    Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
 
                     builder.setMessage("Do you want to Schedule ?")
                             .setCancelable(false)
@@ -247,11 +247,14 @@ public class email extends Fragment {
         schedule_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar=Calendar.getInstance();
+                /*Calendar calendar=Calendar.getInstance();
                 int year=calendar.get(Calendar.YEAR);
                 int month=calendar.get(Calendar.MONTH);
                 final int dayofmon=calendar.get(Calendar.DAY_OF_MONTH);
-
+                */
+                final int[] y = new int[1];
+                final int[] m = new int[1];
+                final int[] dm = new int[1];
                 DatePickerDialog datePickerDialog=new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -267,23 +270,29 @@ public class email extends Fragment {
                         {
                             mon=Integer.toString(month);
                         }
-                        if(dayofmon<10)
+                        if(dayOfMonth<10)
                         {
-                            dmon="0"+Integer.toString(dayofmon);
+                            dmon="0"+Integer.toString(dayOfMonth);
                         }
                         else
                         {
-                            dmon=Integer.toString(dayofmon);
+                            dmon=Integer.toString(dayOfMonth);
                         }
+
                         date.setText(dmon+"/"+mon+"/"+year);
+                        y[0] =Integer.parseInt(String.valueOf(year));
+                        m[0]=Integer.parseInt(mon);
+                        dm[0]=Integer.parseInt(dmon);
+
                     }
-                },year,month,dayofmon);
-                Date d1=new Date();
+                },y[0],m[0],dm[0]);
 
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
                 datePickerDialog.show();
             }
         });
+
 
         schedule_time=(Button) view.findViewById(R.id.schedule_time);
         schedule_time.setOnClickListener(new View.OnClickListener() {
@@ -591,7 +600,7 @@ public class email extends Fragment {
                     }
 
                     byte[] bytes1=byteArrayOutputStream.toByteArray();
-                    Toast.makeText(getContext(),Long.toString(media_size),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),Long.toString(media_size),Toast.LENGTH_SHORT).show();
 
                     media1=Base64.encodeToString(bytes1, Base64.DEFAULT);
 
@@ -620,7 +629,7 @@ public class email extends Fragment {
         }
         else
         {
-            Toast.makeText(getContext(),"Permission Already Granted",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),"Permission Already Granted",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -636,7 +645,7 @@ public class email extends Fragment {
                 Toast.makeText(getContext(),"Storage Permission Granted",Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(getContext(),"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Storage Permission Denied",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -647,7 +656,7 @@ public class email extends Fragment {
         Intent intent = new Intent(getContext(), Remainder.class);
 
         intent.putExtra(Intent.EXTRA_TITLE,sender1+"-"+receiver1+"-"+msg1+"-"+not_id);
-        Toast.makeText(getContext(),sender1+"-"+receiver1+"-"+msg1+"-"+not_id,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),sender1+"-"+receiver1+"-"+msg1+"-"+not_id,Toast.LENGTH_SHORT).show();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),Integer.parseInt(not_id), intent, 0);
         if (c.before(Calendar.getInstance())) {

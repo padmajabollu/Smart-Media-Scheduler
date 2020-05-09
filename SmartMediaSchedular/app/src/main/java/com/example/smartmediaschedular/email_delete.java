@@ -79,6 +79,7 @@ public class email_delete extends AppCompatActivity {
        // Toast.makeText(this,id,Toast.LENGTH_SHORT).show();
 
         getSupportActionBar().setTitle("Email");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sender=(TextInputLayout) findViewById(R.id.sender_name);
         receiver=(TextInputLayout) findViewById(R.id.receiver_email);
@@ -229,7 +230,7 @@ public class email_delete extends AppCompatActivity {
                 if(validateSender() && validateReceiver() && validateAttach() && validatemsg() && validatedate() && validatetime())
                 {
                     String toast=sender1+"\n"+receiver1+"\n"+attach+"\n"+msg1+"\n"+date1+"\n"+time1;
-                    Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
 
                     builder.setMessage("Do you want to Schedule ?")
                             .setIcon(R.drawable.logo)
@@ -319,11 +320,14 @@ public class email_delete extends AppCompatActivity {
         schedule_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar=Calendar.getInstance();
+                /*Calendar calendar=Calendar.getInstance();
                 int year=calendar.get(Calendar.YEAR);
                 int month=calendar.get(Calendar.MONTH);
                 final int dayofmon=calendar.get(Calendar.DAY_OF_MONTH);
-
+                */
+                final int[] y = new int[1];
+                final int[] m = new int[1];
+                final int[] dm = new int[1];
                 DatePickerDialog datePickerDialog=new DatePickerDialog(email_delete.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -339,23 +343,29 @@ public class email_delete extends AppCompatActivity {
                         {
                             mon=Integer.toString(month);
                         }
-                        if(dayofmon<10)
+                        if(dayOfMonth<10)
                         {
-                            dmon="0"+Integer.toString(dayofmon);
+                            dmon="0"+Integer.toString(dayOfMonth);
                         }
                         else
                         {
-                            dmon=Integer.toString(dayofmon);
+                            dmon=Integer.toString(dayOfMonth);
                         }
-                        date.setText(dmon+"/"+mon+"/"+year);
-                    }
-                },year,month,dayofmon);
 
-                Date d1=new Date();
+                        date.setText(dmon+"/"+mon+"/"+year);
+                        y[0] =Integer.parseInt(String.valueOf(year));
+                        m[0]=Integer.parseInt(mon);
+                        dm[0]=Integer.parseInt(dmon);
+
+                    }
+                },y[0],m[0],dm[0]);
+
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
                 datePickerDialog.show();
             }
         });
+
 
         schedule_time=(Button) findViewById(R.id.schedule_time);
         schedule_time.setOnClickListener(new View.OnClickListener() {
@@ -625,7 +635,7 @@ public class email_delete extends AppCompatActivity {
                     }
 
                     byte[] bytes1=byteArrayOutputStream.toByteArray();
-                    Toast.makeText(getApplicationContext(),Long.toString(media_size),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),Long.toString(media_size),Toast.LENGTH_SHORT).show();
 
                     media1=Base64.encodeToString(bytes1, Base64.DEFAULT);
 
@@ -670,7 +680,7 @@ public class email_delete extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Storage Permission Granted",Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(getApplicationContext(),"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Storage Permission Denied",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -690,7 +700,7 @@ public class email_delete extends AppCompatActivity {
         Intent intent = new Intent(this, Remainder.class);
 
         intent.putExtra(Intent.EXTRA_TITLE,sender1+"-"+receiver1+"-"+msg1+"-"+not_id);
-        Toast.makeText(getApplicationContext(),sender1+"-"+receiver1+"-"+msg1+"-"+not_id,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),sender1+"-"+receiver1+"-"+msg1+"-"+not_id,Toast.LENGTH_SHORT).show();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,Integer.parseInt(not_id), intent, 0);
         if (c.before(Calendar.getInstance())) {
@@ -700,5 +710,22 @@ public class email_delete extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if(id==android.R.id.home)
+        {
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

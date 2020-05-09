@@ -1,5 +1,6 @@
 package com.example.smartmediaschedular;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.share)
         {
-            Toast.makeText(getApplicationContext(),"Share",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Share",Toast.LENGTH_SHORT).show();
             Intent share=new Intent(Intent.ACTION_SEND);
             String text = "https://play.google.com/store/apps/details?id=com.smartmediaschedular&hl=en";
             share.putExtra(Intent.EXTRA_TEXT, text);
@@ -145,4 +149,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

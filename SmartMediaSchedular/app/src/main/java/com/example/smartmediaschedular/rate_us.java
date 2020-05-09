@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -128,5 +129,7 @@ public class rate_us extends AppCompatActivity {
         alarmManager.cancel(pendingIntent);
         Toast.makeText(getApplicationContext(),"Alarm Canceled",Toast.LENGTH_SHORT).show();
     }
+
+
 
 }

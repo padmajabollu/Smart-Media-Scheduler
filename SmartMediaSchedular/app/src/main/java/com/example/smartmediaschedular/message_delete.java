@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -46,6 +47,7 @@ import retrofit2.Response;
 
 public class message_delete extends AppCompatActivity {
     String Phone="";
+
 
     private static final int PICK_CONTACTS=1;
     private static final int CONTACT=1;
@@ -79,6 +81,7 @@ public class message_delete extends AppCompatActivity {
         sender2=(TextInputEditText) findViewById(R.id.sender_name1);
 
         getSupportActionBar().setTitle("Message");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
          id=getIntent().getStringExtra("id");
         //Toast.makeText(getBaseContext(),id,Toast.LENGTH_SHORT).show();
@@ -202,7 +205,7 @@ public class message_delete extends AppCompatActivity {
                 if(validateSender() && validatephno() && validatemsg() && validatedate() && validatetime()) {
                     String toast = sender1 + "\n" + phno1 + "\n" + msg1 + "\n" + date1 + "\n" + time1;
 
-                    Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
 
                     builder.setMessage("Do you want to Schedule ?")
                             .setCancelable(false)
@@ -285,11 +288,14 @@ public class message_delete extends AppCompatActivity {
         schedule_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar=Calendar.getInstance();
+                /*Calendar calendar=Calendar.getInstance();
                 int year=calendar.get(Calendar.YEAR);
                 int month=calendar.get(Calendar.MONTH);
                 final int dayofmon=calendar.get(Calendar.DAY_OF_MONTH);
-
+                */
+                final int[] y = new int[1];
+                final int[] m = new int[1];
+                final int[] dm = new int[1];
                 DatePickerDialog datePickerDialog=new DatePickerDialog(message_delete.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -305,20 +311,25 @@ public class message_delete extends AppCompatActivity {
                         {
                             mon=Integer.toString(month);
                         }
-                        if(dayofmon<10)
+                        if(dayOfMonth<10)
                         {
-                            dmon="0"+Integer.toString(dayofmon);
+                            dmon="0"+Integer.toString(dayOfMonth);
                         }
                         else
                         {
-                            dmon=Integer.toString(dayofmon);
+                            dmon=Integer.toString(dayOfMonth);
                         }
+
                         date.setText(dmon+"/"+mon+"/"+year);
+                        y[0] =Integer.parseInt(String.valueOf(year));
+                        m[0]=Integer.parseInt(mon);
+                        dm[0]=Integer.parseInt(dmon);
+
                     }
-                },year,month,dayofmon);
-                Date d1=new Date();
+                },y[0],m[0],dm[0]);
 
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
                 datePickerDialog.show();
             }
         });
@@ -580,10 +591,10 @@ public class message_delete extends AppCompatActivity {
         {
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(getApplicationContext(),"Storage Permission Granted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(getApplicationContext(),"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -613,6 +624,23 @@ public class message_delete extends AppCompatActivity {
         }
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if(id==android.R.id.home)
+        {
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

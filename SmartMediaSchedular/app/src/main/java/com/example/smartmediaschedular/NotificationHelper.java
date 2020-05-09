@@ -5,7 +5,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Build;
+import android.os.Vibrator;
+import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
 
@@ -50,12 +55,23 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification() {
+        Vibrator v=(Vibrator) this.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(1000);
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.logo))
                 .setContentTitle(sender+" : "+receiver)
                 .setContentText(msg)
-                .setSmallIcon(R.drawable.logo);
+                .setSmallIcon(R.drawable.logo)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("\n"+sender+" : "+receiver+"\n\n"+msg)
+                        .setSummaryText("Remainder of Scheduling !"));
 
     }
 
 }
 
+//.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.logo))
+//.setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle("Receiver : "+receiver)
+//                        .bigText(msg)
