@@ -14,7 +14,6 @@
 
     Programming Languages   :Java
     Web Technologies        :PHP
-    Operating Systems       :Ubuntu 18.04.4 LTS
     Development Tools       :Android Studio
     Database                :MySQL
     Scheduler               :Cron-Job
